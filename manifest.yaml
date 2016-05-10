@@ -1,0 +1,6 @@
+# Wavelet versions
+1.0.0:
+	lib:
+    - libfoo.so,THESHAHASH
+  app:
+    - waveview,THEHASH
