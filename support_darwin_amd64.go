@@ -12,7 +12,7 @@ const ARCH = "amd64"
 func (a *App) Launch() {
 	apppath := path.Join(a.Path, "waveviewer.app", "Contents", "MacOS", "waveviewer")
 	env := os.Environ()
-	env = append(env, "QT_PLUGIN_PATH="+path.Join(a.Path, "Contents", "plugins"), "QML2_IMPORT_PATH="+path.Join(a.Path, "Contents", "qml"))
+	env = append(env, "QT_PLUGIN_PATH="+path.Join(a.Path, "waveviewer.app", "Contents", "plugins"), "QML2_IMPORT_PATH="+path.Join(a.Path, "waveviewer.app", "Contents", "qml"))
 	err := os.Chmod(apppath, 0777)
 	if err != nil {
 		fmt.Printf("[ERR] Could not make app executable: %s\n", err)
