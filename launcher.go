@@ -195,8 +195,13 @@ func (m *Manifest) Download(maj, min, bld int) {
 		sum := hex.EncodeToString(hasher.Sum(nil))
 		return sum
 	}
+	lim := make(chan bool, 30)
+	for i := 0; i < 25; i++ {
+		lim <- true
+	}
 	get := func(filepath, hash string) {
 		fmt.Println("[GET]", filepath)
+		lock := <-lim
 		localfile := path.Join(basedir, filepath)
 		resp, err := http.Get(REPO + filepath)
 		if err != nil {
@@ -220,6 +225,7 @@ func (m *Manifest) Download(maj, min, bld int) {
 			fmt.Printf("[ERR] Downloaded file hash mismatch: %s\n", localfile)
 			os.Exit(1)
 		}
+		lim <- lock
 		wg.Done()
 	}
 	copyfile := func(dst, src string) error {
